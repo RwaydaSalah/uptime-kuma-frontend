@@ -20,7 +20,6 @@ jobs:
       - name: Build step
         run: |
           echo "Building frontend..."
-          echo "Build completed!"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -30,11 +29,10 @@ jobs:
 
       - name: Deploy to EC2 via SSM
         run: |
-          
-          echo "INSTANCE_ID=${{ github.event.client_payload.ec2_id }}"
+        
 
           aws ssm send-command \
-            --instance-ids "$INSTANCE_ID" \
+            --instance-ids i-0420b8e3efeb5c782 \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Uptime Kuma Frontend" \
             --parameters commands='[
@@ -43,6 +41,5 @@ jobs:
               "git clone https://github.com/RwaydaSalah/uptime-kuma-frontend.git .",
               "cd docker",
               "docker compose -f docker-compose-dev.yml up -d",
-              "docker image prune -f"
             ]' \
             --output text
