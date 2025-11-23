@@ -30,14 +30,9 @@ jobs:
 
       - name: Deploy to EC2 via SSM
         run: |
-          INSTANCE_ID="${{ github.event.client_payload.instance_id }}"
-          echo "INSTANCE_ID=$INSTANCE_ID"
-    
-          if [ -z "$INSTANCE_ID" ]; then
-           echo "Error: INSTANCE_ID is empty"
-          exit 1
-          fi
           
+          echo "INSTANCE_ID=${{ github.event.client_payload.ec2_id }}"
+
           aws ssm send-command \
             --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
