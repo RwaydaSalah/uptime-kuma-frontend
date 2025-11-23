@@ -30,8 +30,9 @@ jobs:
 
       - name: Deploy to EC2 via SSM
         run: |
+          INSTANCE_ID="${{ github.event.client_payload.instance_id }}"
           aws ssm send-command \
-           --instance-ids i-0f799f43c77cda5f5 \
+            --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Uptime Kuma Frontend" \
             --parameters commands='[
