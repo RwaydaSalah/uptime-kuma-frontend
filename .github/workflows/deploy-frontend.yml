@@ -29,10 +29,9 @@ jobs:
 
       - name: Deploy to EC2 via SSM
         run: |
-        
 
           aws ssm send-command \
-            --instance-ids i-0420b8e3efeb5c782 \
+            --instance-ids i-0e3f52507fc3b923d \
             --document-name "AWS-RunShellScript" \
             --comment "Deploy Uptime Kuma Frontend" \
             --parameters commands='[
@@ -40,6 +39,6 @@ jobs:
               "cd /var/www/frontend",
               "git clone https://github.com/RwaydaSalah/uptime-kuma-frontend.git .",
               "cd docker",
-              "docker compose -f docker-compose-dev.yml up -d",
+              "docker-compose -f docker-compose-dev.yml up -d"
             ]' \
             --output text
